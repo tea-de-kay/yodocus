@@ -8,6 +8,8 @@ authors = ["tea-de-kay", ]
 python = "~=3.12"
 onnxruntime = "1.22.*"
 opencv-python = "4.12.*"
+PyYAML = "6.*"
+pillow = "11.*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "8.*"
