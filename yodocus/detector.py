@@ -14,15 +14,14 @@ from yodocus.__spi__ import (
     DetectionResult,
     YoloModelConfig,
 )
-from yodocus.types import ModelVariant
 from yodocus.visualizer import Visualizer
 
 
 class Detector:
     """YOLO object detection handling ONNX inference and visualization."""
 
-    def __init__(self, model: str, variant: ModelVariant):
-        self._model_path, self._model_config = self._load(Path(model), variant)
+    def __init__(self, model: str):
+        self._model_path, self._model_config = self._load(Path(model))
         self._classes = {
             idx: name for idx, name in enumerate(self._model_config.class_names)
         }
@@ -38,9 +37,9 @@ class Detector:
         return self._classes
 
     @staticmethod
-    def _load(dir: Path, variant: ModelVariant) -> tuple[str, YoloModelConfig]:
-        model_path = dir / variant / "model.onnx"
-        config = YoloModelConfig.from_yaml(dir / variant / "config.yaml")
+    def _load(dir: Path) -> tuple[str, YoloModelConfig]:
+        model_path = dir / "model.onnx"
+        config = YoloModelConfig.from_yaml(dir / "config.yaml")
 
         return str(model_path), config
 
