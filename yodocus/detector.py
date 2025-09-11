@@ -36,6 +36,14 @@ class Detector:
     def classes(self) -> dict[int, str]:
         return self._classes
 
+    @property
+    def config(self) -> YoloModelConfig:
+        return self._model_config
+
+    @property
+    def input_size(self) -> tuple[int, int]:
+        return self._model_config.input_size
+
     @staticmethod
     def _load(dir: Path) -> tuple[str, YoloModelConfig]:
         model_path = dir / "model.onnx"
