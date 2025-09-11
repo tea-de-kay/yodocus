@@ -21,17 +21,14 @@ class Detector:
     """YOLO object detection handling ONNX inference and visualization."""
 
     def __init__(self, model: str):
-        self._model_path, self._model_config = self._load(Path(model))
+        self._model_path, self._model_config = self._load(model)
         self._classes = {
             idx: name for idx, name in enumerate(self._model_config.class_names)
         }
 
-        if "CUDAExecutionProvider" in ort.get_available_providers():
-            providers = ["CUDAExecutionProvider"]
-        else:
-            providers = ["CPUExecutionProvider"]
-
-        self._session = ort.InferenceSession(self._model_path, providers=providers)
+        self._session = ort.InferenceSession(
+            self._model_path, providers=self._get_ort_providers()
+        )
         self._model_inputs = self._session.get_inputs()
 
     @property
@@ -55,11 +52,29 @@ class Detector:
         return self._model_config.input_size[1]
 
     @staticmethod
-    def _load(dir: Path) -> tuple[str, YoloModelConfig]:
+    def _load(model: str) -> tuple[str, YoloModelConfig]:
+        dir = Path(model)
         model_path = dir / "model.onnx"
-        config = YoloModelConfig.from_yaml(dir / "config.yaml")
+        config_path = dir / "config.yaml"
 
+        if not model_path.exists() or not config_path.exists():
+            from huggingface_hub import hf_hub_download
+
+            model_path = hf_hub_download(repo_id=model, filename="model.onnx")
+            config_path = hf_hub_download(repo_id=model, filename="config.yaml")
+
+        config = YoloModelConfig.from_yaml(Path(config_path))
         return str(model_path), config
+
+    @staticmethod
+    def _get_ort_providers() -> list[str]:
+        providers = []
+        if "CUDAExecutionProvider" in ort.get_available_providers():
+            providers = ["CUDAExecutionProvider"]
+
+        providers.append("CPUExecutionProvider")
+
+        return providers
 
     def resize(self, img: np.ndarray) -> tuple[np.ndarray, tuple[int, int]]:
         h, w = img.shape[:2]

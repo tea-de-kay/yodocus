@@ -11,6 +11,11 @@ opencv-python = "4.12.*"
 PyYAML = "6.*"
 pillow = "11.*"
 
+huggingface-hub = { version = "0.34.*", optional = true}
+
+[tool.poetry.extras]
+huggingface = ["huggingface-hub"]
+
 [tool.poetry.group.dev.dependencies]
 pytest = "8.*"
 pytest-cov = "6.*"
