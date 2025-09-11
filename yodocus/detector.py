@@ -46,6 +46,14 @@ class Detector:
     def input_size(self) -> tuple[int, int]:
         return self._model_config.input_size
 
+    @property
+    def input_height(self) -> int:
+        return self._model_config.input_size[0]
+
+    @property
+    def input_width(self) -> int:
+        return self._model_config.input_size[1]
+
     @staticmethod
     def _load(dir: Path) -> tuple[str, YoloModelConfig]:
         model_path = dir / "model.onnx"
