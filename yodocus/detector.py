@@ -26,10 +26,12 @@ class Detector:
             idx: name for idx, name in enumerate(self._model_config.class_names)
         }
 
-        self._session = ort.InferenceSession(
-            self._model_path,
-            providers=["CUDAExecutionProvider", "CPUExecutionProvider"],
-        )
+        if "CUDAExecutionProvider" in ort.get_available_providers():
+            providers = ["CUDAExecutionProvider"]
+        else:
+            providers = ["CPUExecutionProvider"]
+
+        self._session = ort.InferenceSession(self._model_path, providers=providers)
         self._model_inputs = self._session.get_inputs()
 
     @property
