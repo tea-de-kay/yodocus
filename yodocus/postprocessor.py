@@ -33,7 +33,7 @@ class HeuristicPostprocessor:
                     inter = box1.calc_intersection_area(box2)
                     if inter > 0:
                         smaller_area = min(box1.area, box2.area)
-                        if inter / smaller_area >= self._config.containment_thresh:
+                        if inter / smaller_area >= self._config.containment_threshold:
                             box1 = box1.merge(box2)
                             skip.add(j)
                             changed = True

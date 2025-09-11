@@ -79,5 +79,5 @@ class DetectionResult:
 
 @dataclass
 class PostprocessorConfig:
-    containment_thresh: float = 0.9
+    containment_threshold: float = 0.9
     """Fraction of box to be contained in surrounding box in order to merge."""
