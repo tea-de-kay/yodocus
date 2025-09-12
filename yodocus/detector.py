@@ -153,7 +153,7 @@ class Detector:
             classes_scores = row[4:]
             max_score = np.amax(classes_scores)
 
-            if max_score >= config.conf_threshold:
+            if max_score >= config.confidence_threshold:
                 # Get the class ID with the highest score
                 class_id = np.argmax(classes_scores)
 
@@ -172,7 +172,7 @@ class Detector:
 
         # Apply non-maximum suppression to filter out overlapping bounding boxes
         indices = cv2.dnn.NMSBoxes(
-            boxes, scores, config.conf_threshold, config.iou_threshold
+            boxes, scores, config.confidence_threshold, config.iou_threshold
         )
 
         detected_boxes: list[DetectedBox] = []

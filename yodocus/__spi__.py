@@ -26,7 +26,7 @@ class YoloModelConfig:
 
 @dataclass
 class DetectionConfig:
-    conf_threshold: float = 0.25
+    confidence_threshold: float = 0.25
     iou_threshold: float = 0.45
     visualize: bool = False
     """Whether to draw detected bounding boxes on input image."""
