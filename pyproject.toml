@@ -9,7 +9,7 @@ python = "~=3.12"
 onnxruntime = "1.22.*"
 opencv-python = "4.12.*"
 PyYAML = "6.*"
-pillow = "11.*"
+pillow = "12.*"
 
 huggingface-hub = { version = ">=0.34", optional = true}
 
