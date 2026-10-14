@@ -6,8 +6,8 @@ authors = ["tea-de-kay", ]
 
 [tool.poetry.dependencies]
 python = "~=3.12"
-onnxruntime = "1.22.*"
-opencv-python = "4.13.*"
+onnxruntime = "1.*"
+opencv-python = "4.*"
 PyYAML = "6.*"
 pillow = "12.*"
 
